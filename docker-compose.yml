@@ -4,8 +4,8 @@
 # Source: https://github.com/florentortiz/RAthena-Docker
 # Created by: florentortiz, Mido-tw
 #
-# We highly encourage the community to share their ideas and contributions. 
-# Your insights and improvements are valuable to us, and we welcome any form of 
+# We highly encourage the community to share their ideas and contributions.
+# Your insights and improvements are valuable to us, and we welcome any form of
 # contribution, be it through issues, pull requests, or discussions.
 # Let's build something great together!
 #
@@ -13,9 +13,9 @@
 
 version: '3.1'
 
-services: 
+services:
   db:
-    image: ortizflorent/ragnarok-mysql:1.0.12
+    build: ./mysql
     volumes:
       - db_data:/var/lib/mysql
     restart: always
@@ -26,10 +26,10 @@ services:
       MYSQL_PASSWORD: ragnarok
 
   phpmyadmin:
-    image: ortizflorent/ragnarok-phpmyadmin:1.0.12
+    image: phpmyadmin
     restart: always
-    ports:
-      - 8080:80
+#    ports:
+#      - 8080:80
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: ragnarokroot
@@ -37,7 +37,7 @@ services:
       - db
 
   ragnarok:
-    image: ortizflorent/ragnarok-server:1.0.12
+    build: ./server
     links:
       - db
     depends_on:
@@ -53,7 +53,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
 
   fluxcp:
-    image: ortizflorent/ragnarok-fluxcp:1.0.12
+    build: ./fluxcp
     links:
       - db
       - ragnarok
@@ -62,11 +62,11 @@ services:
       - ragnarok
     tty: true
     stdin_open: true
-    ports:
-      - "8081:80"
+#    ports:
+#      - "8081:80"
 
   wsproxy:
-    image: ortizflorent/ragnarok-wsproxy:1.0.12
+    build: ./wsproxy
     links:
       - ragnarok
     depends_on:
@@ -77,7 +77,7 @@ services:
       - "5999:5999"
 
   robrowser:
-    image: ortizflorent/ragnarok-robrowser:1.0.12
+    build: ./robrowser
     links:
       - wsproxy
     depends_on:

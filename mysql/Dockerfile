@@ -15,7 +15,7 @@ FROM mysql:8
 
 RUN microdnf install -y git
 
-RUN git clone https://github.com/rathena/rathena.git /root/rAthena
+RUN git clone https://github.com/dollarbr/rathena.git /root/rAthena
 
 RUN cp /root/rAthena/sql-files/*.sql /docker-entrypoint-initdb.d/
 
