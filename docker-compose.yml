@@ -51,6 +51,8 @@ services:
       - "8888:8888"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - ./server_data:/root/rAthena:rw
 
   fluxcp:
     build: ./fluxcp
@@ -65,26 +67,27 @@ services:
 #    ports:
 #      - "8081:80"
 
-  wsproxy:
-    build: ./wsproxy
-    links:
-      - ragnarok
-    depends_on:
-      - ragnarok
-    tty: true
-    stdin_open: true
-    ports:
-      - "5999:5999"
+#  wsproxy:
+#    build: ./wsproxy
+#    links:
+#      - ragnarok
+#    depends_on:
+#      - ragnarok
+#    tty: true
+#    stdin_open: true
+#    ports:
+#      - "5999:5999"
 
-  robrowser:
-    build: ./robrowser
-    links:
-      - wsproxy
-    depends_on:
-      - wsproxy
-    tty: true
-    stdin_open: true
-    ports:
-      - "22000:22000"
+#  robrowser:
+#    build: ./robrowser
+#    links:
+#      - wsproxy
+#    depends_on:
+#      - wsproxy
+#    tty: true
+#    stdin_open: true
+#    ports:
+#      - "22000:22000"
+
 volumes:
   db_data: {}
