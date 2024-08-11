@@ -1,3 +1,4 @@
+
 ###########################################################################
 #
 # Project: RAthena-Docker
@@ -16,7 +17,7 @@ services:
     build: ./mysql
     volumes:
       - db_data:/var/lib/mysql
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ragnarokroot
       MYSQL_DATABASE: ragnarok
@@ -25,7 +26,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin
-    restart: always
+    restart: unless-stopped
 #    ports:
 #      - 8080:80
     environment:
@@ -50,7 +51,7 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
-      - ./server_data:/root/rAthena:rw
+      - ./rAthena_data:/root/rAthena:rw
 
   fluxcp:
     build: ./fluxcp
@@ -89,3 +90,4 @@ services:
 
 volumes:
   db_data: {}
+  rAthena_data: {}
