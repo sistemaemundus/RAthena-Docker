@@ -29,7 +29,7 @@ RUN apt-get install -y git \
 
 
 RUN apt-get install mysql-server -y
-RUN git clone https://github.com/dollarbr/rathena.git /root/rAthena
+RUN git clone https://github.com/sistemaemundus/rathena.git /root/rAthena
 
 WORKDIR /root/rAthena
 COPY /config/Athena/ /root/rAthena/conf/
