@@ -36,8 +36,7 @@ COPY /config/Athena/ /root/rAthena/conf/
 COPY /config/Server/ /root/rAthena/conf/battle/
 COPY defines_post.hpp /root/rAthena/src/custom/defines_post.hpp
 
-RUN chmod +x configure.sh
-RUN ./configure --enable-epoll=yes --enable-prere=no --enable-vip=yes --enable-packetver=20220330
+RUN ./configure --enable-vip=yes --enable-packetver=20220330
 RUN make clean && make server
 RUN chmod a+x login-server && chmod a+x char-server && chmod a+x map-server && chmod a+x web-server
 
