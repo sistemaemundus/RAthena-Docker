@@ -36,6 +36,8 @@ services:
 
   ragnarok:
     build: ./server
+    volumes:
+      - ./server_data:/root/rAthena:rw
     links:
       - db
     depends_on:
@@ -49,8 +51,6 @@ services:
       - "8888:8888"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-    volumes:
-      - ./server_data:/root/rAthena:rw
 
   fluxcp:
     build: ./fluxcp
