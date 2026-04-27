@@ -23,7 +23,8 @@ RUN git clone https://github.com/sistemaemundus/_SmokeWorld_rAthenaSmoke.git /ro
 WORKDIR /root/rAthena
 
 # Compila os servidores (agora com permissão para o configure)
-RUN chmod +x configure && ./configure && make clean && make server
+#RUN chmod +x configure && ./configure && make clean && make server
+RUN chmod +x configure && ./configure && make clean && make -j1 server
 
 # --------------------- ESTÁGIO FINAL ---------------------
 FROM ubuntu:22.04
