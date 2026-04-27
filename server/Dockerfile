@@ -31,13 +31,13 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instala apenas as dependências de execução (mais leves)
+# Instala apenas as dependências de execução
 RUN apt-get update && apt-get install -y \
     default-mysql-client \
     libpcre3 \
     libssl3 \
     zlib1g \
-    libmariadb3 \
+    libmysqlclient21 \
     dos2unix \
     vim \
     netcat-openbsd \
@@ -47,18 +47,13 @@ RUN apt-get update && apt-get install -y \
 # Copia os binários compilados do estágio builder
 COPY --from=builder /root/rAthena/login-server /root/rAthena/char-server /root/rAthena/map-server /root/rAthena/web-server /root/rAthena/
 
-# Copia o script de inicialização (certifique-se que boot.sh existe no contexto)
 COPY boot.sh /root/rAthena/boot.sh
 
 WORKDIR /root/rAthena
 
-# Permissões de execução
-RUN chmod +x login-server char-server map-server web-server boot.sh
+RUN chmod +x login-server char-server map-server web-server boot.sh && \
+    dos2unix boot.sh
 
-# Corrige final de linha (caso necessário)
-RUN dos2unix boot.sh
-
-# Expor portas padrão do rAthena (opcional)
 EXPOSE 5121 6121 6900 8000
 
 ENTRYPOINT ["/bin/bash", "/root/rAthena/boot.sh"]
