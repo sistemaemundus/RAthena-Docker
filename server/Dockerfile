@@ -48,6 +48,8 @@ COPY --from=builder /root/rAthena/login-server /root/rAthena/char-server /root/r
 
 COPY boot.sh /root/rAthena/boot.sh
 
+RUN git clone https://github.com/sistemaemundus/_SmokeWorld_rAthenaSmoke.git /root/rAthena
+
 WORKDIR /root/rAthena
 
 RUN chmod +x login-server char-server map-server web-server boot.sh && \
