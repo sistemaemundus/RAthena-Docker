@@ -1,28 +1,32 @@
 ###########################################################################
 #
-# Project: RAthena-Docker
-# Source: https://github.com/florentortiz/RAthena-Docker
-# Created by: florentortiz, Mido-tw
+# Dockerfile - wsproxy
 #
-# We highly encourage the community to share their ideas and contributions. 
-# Your insights and improvements are valuable to us, and we welcome any form of 
-# contribution, be it through issues, pull requests, or discussions.
-# Let's build something great together!
-#
-###############################################################################
+###########################################################################
 
-FROM ubuntu:latest
+FROM ubuntu:22.04
 
-RUN apt-get update && apt-get upgrade -y
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get install -y  dos2unix \ 
-						npm 
-                        
-RUN npm install wsproxy -g
+# Dependências necessárias
+RUN apt-get update && apt-get install -y \
+    dos2unix \
+    npm \
+    netcat-openbsd \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY boot.sh ./boot.sh
+# Instala o wsproxy globalmente
+RUN npm install -g wsproxy
 
-RUN dos2unix ./boot.sh
-RUN chmod +x ./boot.sh
+# Copia o script de inicialização
+COPY boot.sh /root/boot.sh
 
-ENTRYPOINT ["./boot.sh"]
+WORKDIR /root
+
+# Corrige final de linha + permissão
+RUN dos2unix /root/boot.sh
+RUN chmod +x /root/boot.sh
+
+# Inicialização mais confiável
+ENTRYPOINT ["/bin/bash", "/root/boot.sh"]
