@@ -42,4 +42,4 @@ RUN chmod +x ./boot.sh
 RUN dos2unix ./boot.sh
 
 # Inicialização
-ENTRYPOINT ["/bin/bash", "/root/rAthena/boot.sh"]
+ENTRYPOINT ["./boot.sh"]
