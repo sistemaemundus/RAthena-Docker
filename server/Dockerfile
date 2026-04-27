@@ -22,8 +22,8 @@ RUN git clone https://github.com/sistemaemundus/_SmokeWorld_rAthenaSmoke.git /ro
 
 WORKDIR /root/rAthena
 
-# Compila os servidores
-RUN ./configure && make clean && make server
+# Compila os servidores (agora com permissão para o configure)
+RUN chmod +x configure && ./configure && make clean && make server
 
 # --------------------- ESTÁGIO FINAL ---------------------
 FROM ubuntu:22.04
@@ -46,7 +46,7 @@ RUN apt-get update && apt-get install -y \
 # Copia os binários compilados do estágio builder
 COPY --from=builder /root/rAthena/login-server /root/rAthena/char-server /root/rAthena/map-server /root/rAthena/web-server /root/rAthena/
 
-# Copia o script de inicialização (você pode mantê-lo local ou clonar novamente)
+# Copia o script de inicialização (certifique-se que boot.sh existe no contexto)
 COPY boot.sh /root/rAthena/boot.sh
 
 WORKDIR /root/rAthena
