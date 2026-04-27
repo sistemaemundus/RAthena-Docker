@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 while ! mysqladmin ping -h db -u ragnarok --password=ragnarok --silent; do
     sleep 1
@@ -8,6 +8,4 @@ done
 ./char-server &
 ./map-server
 
-while [ 1 ]; do
-    /bin/bash
-done
+wait   # mantém o contêiner vivo enquanto os servidores rodam
