@@ -1,15 +1,7 @@
-###########################################################################
-#
-# Dockerfile para executar rAthena já compilado
-# (sem compilar dentro do Coolify)
-#
-###########################################################################
-
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Apenas dependências de execução
 RUN apt-get update && apt-get install -y \
     git \
     default-mysql-client \
@@ -22,13 +14,14 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Clona sua source já compilada
+# Clona sua source compilada
 RUN git clone https://github.com/sistemaemundus/_SmokeWorld_rAthenaSmoke.git /root/rAthena
-#COPY ./boot.sh /root/rAthena/boot.sh
+
+# Como o contexto é a raiz (/), precisa apontar server/boot.sh
+COPY server/boot.sh /root/rAthena/boot.sh
 
 WORKDIR /root/rAthena
 
-# Garante permissão dos binários já compilados
 RUN chmod +x \
     login-server \
     char-server \
@@ -36,11 +29,6 @@ RUN chmod +x \
     web-server \
     boot.sh
 
-# Boot script
-#COPY ./boot.sh /root/rAthena/boot.sh
-#RUN chmod +x ./boot.sh
-RUN dos2unix ./boot.sh
+RUN dos2unix /root/rAthena/boot.sh
 
-# Inicialização
-#ENTRYPOINT ["./boot.sh"]
 ENTRYPOINT ["/bin/bash", "/root/rAthena/boot.sh"]
