@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
 
 # Clona sua source já compilada
 RUN git clone https://github.com/sistemaemundus/_SmokeWorld_rAthenaSmoke.git /root/rAthena
-COPY ./boot.sh /root/rAthena/boot.sh
+#COPY ./boot.sh /root/rAthena/boot.sh
 
 WORKDIR /root/rAthena
 
@@ -38,8 +38,9 @@ RUN chmod +x \
 
 # Boot script
 #COPY ./boot.sh /root/rAthena/boot.sh
-RUN chmod +x ./boot.sh
+#RUN chmod +x ./boot.sh
 RUN dos2unix ./boot.sh
 
 # Inicialização
-ENTRYPOINT ["./boot.sh"]
+#ENTRYPOINT ["./boot.sh"]
+ENTRYPOINT ["/bin/bash", "/root/rAthena/boot.sh"]
