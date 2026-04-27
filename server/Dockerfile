@@ -44,11 +44,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 # Copia os binários compilados do estágio builder
-COPY --from=builder /root/rAthena/login-server /root/rAthena/char-server /root/rAthena/map-server /root/rAthena/web-server /root/rAthena/
+COPY --from=builder /root/rAthena/ /root/rAthena/
 
 COPY boot.sh /root/rAthena/boot.sh
-
-RUN git clone https://github.com/sistemaemundus/_SmokeWorld_rAthenaSmoke.git /root/rAthena
 
 WORKDIR /root/rAthena
 
