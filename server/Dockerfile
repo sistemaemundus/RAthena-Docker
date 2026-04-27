@@ -41,7 +41,7 @@ RUN chmod +x configure
 RUN ./configure --enable-epoll=yes
 
 # Compilação com log detalhado
-RUN make clean && make server V=1
+RUN make clean && make server V=1 > build.log 2>&1 || (cat build.log && exit 1)
 
 # Permissões dos binários
 RUN chmod +x \
