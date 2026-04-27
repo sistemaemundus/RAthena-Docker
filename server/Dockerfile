@@ -38,7 +38,8 @@ WORKDIR /root/rAthena
 
 RUN chmod +x configure
 #RUN ./configure --enable-epoll=yes --enable-prere=no --enable-vip=yes --enable-packetver=20220330
-RUN ./configure --enable-epoll=yes --enable-packetver=20250528
+#RUN ./configure --enable-epoll=yes --enable-packetver=20250528
+RUN ./configure --enable-epoll=yes
 RUN make clean && make server
 RUN chmod a+x login-server && chmod a+x char-server && chmod a+x map-server && chmod a+x web-server
 
