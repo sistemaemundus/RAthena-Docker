@@ -33,7 +33,8 @@ RUN chmod +x \
     login-server \
     char-server \
     map-server \
-    web-server
+    web-server \
+    boot.sh
 
 # Boot script
 #COPY ./boot.sh /root/rAthena/boot.sh
@@ -41,4 +42,4 @@ RUN chmod +x ./boot.sh
 RUN dos2unix ./boot.sh
 
 # Inicialização
-ENTRYPOINT ["./boot.sh"]
+ENTRYPOINT ["/bin/bash", "/root/rAthena/boot.sh"]
