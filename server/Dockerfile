@@ -9,13 +9,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     build-essential \
     git \
-    libmysqlclient-dev \
+    libmariadb-dev \
+    libmariadb-dev-compat \
     libpcre3-dev \
     zlib1g-dev \
     libssl-dev \
     pkg-config \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean
 
 # Clona o repositório com o código fonte
 RUN git clone https://github.com/sistemaemundus/_SmokeWorld_rAthenaSmoke.git /root/rAthena
@@ -37,12 +37,11 @@ RUN apt-get update && apt-get install -y \
     libpcre3 \
     libssl3 \
     zlib1g \
-    libmysqlclient21 \
+    libmariadb3 \
     dos2unix \
     vim \
     netcat-openbsd \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean
 
 # Copia os binários compilados do estágio builder
 COPY --from=builder /root/rAthena/login-server /root/rAthena/char-server /root/rAthena/map-server /root/rAthena/web-server /root/rAthena/
