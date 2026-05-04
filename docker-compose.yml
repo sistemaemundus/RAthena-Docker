@@ -13,10 +13,22 @@ services:
       MYSQL_PASSWORD: ragnarok
 
   phpmyadmin:
-    labels:
-      # Middleware de autenticação:
-      - "traefik.http.routers.${COOLIFY_CONTAINER_NAME}-http.middlewares=redirect-to-https,pma-auth@file"
-      - "traefik.http.routers.${COOLIFY_CONTAINER_NAME}-https.middlewares=gzip,pma-auth@file"
+      labels:
+            # ativa o gerenciamento pelo Coolify
+            - coolify.managed=true
+            # habilita o uso do traefik e configura pra utilização de middlwares 
+            - "traefik.enable=true"
+            - "traefik.http.middlewares.gzip.compress=true"
+            - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+            # configura o uso do middleware pma-auth@file para pedir usuário e senha no domínio dinâmico criado pelo Coolify
+            - "traefik.http.routers.pma-http.entryPoints=http"
+            - "traefik.http.routers.pma-http.middlewares=redirect-to-https,pma-auth@file"
+            - "traefik.http.routers.pma-http.rule=Host(`${SERVICE_FQDN_PHPMYADMIN}`) && PathPrefix(`/`)"
+            # ajusta para a utilização de HTTPS na conexão e na autenticação
+            - "traefik.http.routers.pma-https.entryPoints=https"
+            - "traefik.http.routers.pma-https.middlewares=gzip,pma-auth@file"
+            - "traefik.http.routers.pma-https.rule=Host(`${SERVICE_FQDN_PHPMYADMIN}`) && PathPrefix(`/`)"
+            - "traefik.http.routers.pma-https.tls=true"
     image: phpmyadmin
     restart: always
     environment:
